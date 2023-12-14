@@ -81,6 +81,9 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="org.example.domain" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\SpringBoot\PracticeHibernate\src\main\resources" />
     </key>
@@ -183,6 +186,9 @@
       <workItem from="1702372059741" duration="2842000" />
       <workItem from="1702407521619" duration="17189000" />
       <workItem from="1702461333974" duration="87000" />
+      <workItem from="1702482839149" duration="458000" />
+      <workItem from="1702550337475" duration="28000" />
+      <workItem from="1702550544122" duration="6900000" />
     </task>
     <servers />
   </component>
