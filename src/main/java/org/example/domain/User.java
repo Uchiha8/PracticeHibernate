@@ -3,6 +3,7 @@ package org.example.domain;
 import jakarta.persistence.*;
 
 @Entity
+@Table(name = "users")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,12 +19,9 @@ public class User {
     @Column(nullable = false)
     private Boolean isActive;
 
-    public User(Long id, String firstName, String lastName, String username, String password, Boolean isActive) {
-        this.id = id;
+    public User(String firstName, String lastName, Boolean isActive) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.username = username;
-        this.password = password;
         this.isActive = isActive;
     }
 

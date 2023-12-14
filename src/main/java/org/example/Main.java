@@ -10,6 +10,7 @@ public class Main {
     public static void main(String[] args) {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
         Facade facade = applicationContext.getBean(Facade.class);
+        facade.userCRUD();
         facade.messageCRUD();
     }
 }

@@ -10,6 +10,7 @@ import java.util.List;
 
 @Repository
 public class UserDAO implements BaseDAO<User> {
+
     private final SessionFactory sessionFactory;
 
     @Autowired

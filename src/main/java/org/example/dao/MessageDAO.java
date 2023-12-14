@@ -10,11 +10,9 @@ import java.util.List;
 
 @Repository
 public class MessageDAO implements BaseDAO<Message> {
-
-
-    @Autowired
     private final SessionFactory sessionFactory;
 
+    @Autowired
     public MessageDAO(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
