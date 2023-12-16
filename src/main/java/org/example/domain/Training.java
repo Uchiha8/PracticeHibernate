@@ -103,8 +103,17 @@ public class Training {
         this.duration = duration;
     }
 
+
     @Override
     public String toString() {
-        return "Training{" + "id=" + id + ", trainees=" + trainees + ", trainer=" + trainer + ", trainingName='" + trainingName + '\'' + ", trainingType=" + trainingType + ", date=" + date + ", duration=" + duration + '}';
+        return "Training{" +
+                "id=" + id +
+                ", trainees=" + trainees +
+                ", trainer=" + trainer +
+                ", trainingName='" + trainingName + '\'' +
+                ", trainingType=" + trainingType +
+                ", date=" + date +
+                ", duration=" + duration +
+                '}';
     }
 }

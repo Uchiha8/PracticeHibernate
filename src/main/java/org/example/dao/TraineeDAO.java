@@ -1,8 +1,11 @@
 package org.example.dao;
 
 import org.example.domain.Trainee;
+import org.example.domain.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -29,6 +32,36 @@ public class TraineeDAO implements BaseDAO<Trainee> {
     public Trainee readById(Long id) {
         try (Session session = sessionFactory.openSession()) {
             return session.get(Trainee.class, id);
+        }
+    }
+
+    public Trainee readByUsername(String username) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Trainee> query = session.createQuery(
+                    "SELECT t FROM Trainee t JOIN FETCH t.user u WHERE u.username = :username",
+                    Trainee.class
+            );
+            query.setParameter("username", username);
+            return query.uniqueResult();
+        }
+    }
+
+    public Trainee changePassword(String username, String newPassword) {
+        try (Session session = sessionFactory.openSession()) {
+            Transaction transaction = session.beginTransaction();
+            Query<Trainee> traineeQuery = session.createQuery(
+                    "SELECT t FROM Trainee t JOIN FETCH t.user u WHERE u.username = :username",
+                    Trainee.class
+            );
+            traineeQuery.setParameter("username", username);
+            Trainee trainee = traineeQuery.uniqueResult();
+            if (trainee != null) {
+                User user = trainee.getUser();
+                user.setPassword(newPassword);
+                session.merge(user);
+                transaction.commit();
+            }
+            return trainee;
         }
     }
 

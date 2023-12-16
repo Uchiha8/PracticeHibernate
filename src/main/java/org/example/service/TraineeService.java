@@ -6,6 +6,7 @@ import org.example.utils.exception.TraineeNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,6 +32,24 @@ public class TraineeService implements BaseService<Trainee> {
         Trainee trainee = traineeDAO.readById(id);
         if (trainee == null) {
             throw new TraineeNotFoundException("Trainee not found with ID: " + id);
+        }
+        return trainee;
+    }
+
+    public Trainee changePassword(String username, String oldPassword, String newPassword) {
+        if (matchTraineeCredentials(username, oldPassword)) {
+            Trainee trainee = traineeDAO.changePassword(username, newPassword);
+            if (trainee != null) {
+                return trainee;
+            }
+        }
+        throw new RuntimeException("Trainee password did not changed");
+    }
+
+    public Trainee readByUsername(String username) {
+        Trainee trainee = traineeDAO.readByUsername(username);
+        if (trainee == null) {
+            throw new TraineeNotFoundException("Trainee not found with username: " + username);
         }
         return trainee;
     }
@@ -65,5 +84,16 @@ public class TraineeService implements BaseService<Trainee> {
         }
         return true;
     }
+
+    public boolean matchTraineeCredentials(String username, String password) {
+        List<Trainee> trainees = readAll();
+        for (Trainee t : trainees) {
+            if (t.getUser().getUsername().equals(username) && t.getUser().getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

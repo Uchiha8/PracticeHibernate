@@ -1,6 +1,7 @@
 package org.example.service;
 
 import org.example.dao.TrainerDAO;
+import org.example.domain.Trainee;
 import org.example.domain.Trainer;
 import org.example.utils.exception.TraineeNotFoundException;
 import org.example.utils.exception.TrainerNotFoundException;
@@ -12,6 +13,7 @@ import java.util.List;
 @Service
 public class TrainerService implements BaseService<Trainer> {
     private final TrainerDAO trainerDAO;
+
     @Autowired
     public TrainerService(TrainerDAO trainerDAO) {
         this.trainerDAO = trainerDAO;
@@ -33,6 +35,23 @@ public class TrainerService implements BaseService<Trainer> {
             throw new TrainerNotFoundException("Trainer not found ith ID: " + id);
         }
         return trainer;
+    }
+
+    public Trainer readByUsername(String username) {
+        Trainer trainer = trainerDAO.readByUsername(username);
+        if (trainer == null) {
+            throw new TrainerNotFoundException("Trainer not found ith username: " + username);
+        }
+        return trainer;
+    }
+    public Trainer changePassword(String username, String oldPassword, String newPassword) {
+        if (matchTrainerCredentials(username, oldPassword)) {
+            Trainer trainer = trainerDAO.changePassword(username, newPassword);
+            if (trainer != null) {
+                return trainer;
+            }
+        }
+        throw new RuntimeException("Trainee password did not changed");
     }
 
     @Override
@@ -64,5 +83,15 @@ public class TrainerService implements BaseService<Trainer> {
             return false;
         }
         return true;
+    }
+
+    public boolean matchTrainerCredentials(String username, String password) {
+        List<Trainer> trainers = readAll();
+        for (Trainer t : trainers) {
+            if (t.getUser().getUsername().equals(username) && t.getUser().getPassword().equals(password)) {
+                return true;
+            }
+        }
+        return false;
     }
 }
