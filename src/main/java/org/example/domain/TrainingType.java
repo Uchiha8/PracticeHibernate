@@ -10,6 +10,10 @@ public class TrainingType {
     @Column(nullable = false)
     private String name;
 
+    public TrainingType(String name) {
+        this.name = name;
+    }
+
     public TrainingType(Long id, String name) {
         this.id = id;
         this.name = name;

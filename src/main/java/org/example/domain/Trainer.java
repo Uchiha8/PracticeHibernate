@@ -20,6 +20,11 @@ public class Trainer {
         this.user = user;
     }
 
+    public Trainer(TrainingType trainingType, User user) {
+        this.trainingType = trainingType;
+        this.user = user;
+    }
+
     public Trainer() {
     }
 

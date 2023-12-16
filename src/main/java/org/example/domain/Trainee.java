@@ -14,8 +14,7 @@ public class Trainee {
     @OneToOne
     private User user;
 
-    public Trainee(Long id, Date birthOfDate, String address, User user) {
-        this.id = id;
+    public Trainee(Date birthOfDate, String address, User user) {
         this.birthOfDate = birthOfDate;
         this.address = address;
         this.user = user;

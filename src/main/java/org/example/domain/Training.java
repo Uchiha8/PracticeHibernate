@@ -10,7 +10,8 @@ public class Training {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToMany
+    @ManyToMany
+    @JoinTable(name = "training_trainees", joinColumns = @JoinColumn(name = "training_id"), inverseJoinColumns = @JoinColumn(name = "trainee_id"))
     private List<Trainee> trainees;
     @ManyToOne
     private Trainer trainer;
@@ -26,6 +27,15 @@ public class Training {
 
     public Training(Long id, List<Trainee> trainees, Trainer trainer, String trainingName, TrainingType trainingType, Date date, Number duration) {
         this.id = id;
+        this.trainees = trainees;
+        this.trainer = trainer;
+        this.trainingName = trainingName;
+        this.trainingType = trainingType;
+        this.date = date;
+        this.duration = duration;
+    }
+
+    public Training(List<Trainee> trainees, Trainer trainer, String trainingName, TrainingType trainingType, Date date, Number duration) {
         this.trainees = trainees;
         this.trainer = trainer;
         this.trainingName = trainingName;
@@ -95,14 +105,6 @@ public class Training {
 
     @Override
     public String toString() {
-        return "Training{" +
-                "id=" + id +
-                ", trainees=" + trainees +
-                ", trainer=" + trainer +
-                ", trainingName='" + trainingName + '\'' +
-                ", trainingType=" + trainingType +
-                ", date=" + date +
-                ", duration=" + duration +
-                '}';
+        return "Training{" + "id=" + id + ", trainees=" + trainees + ", trainer=" + trainer + ", trainingName='" + trainingName + '\'' + ", trainingType=" + trainingType + ", date=" + date + ", duration=" + duration + '}';
     }
 }
