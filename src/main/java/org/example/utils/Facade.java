@@ -4,8 +4,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.example.domain.Message;
 import org.example.domain.User;
-import org.example.service.MessageService;
-import org.example.service.UserService;
+import org.example.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,27 +12,19 @@ import org.springframework.stereotype.Component;
 public class Facade {
     private static Logger logger = LogManager.getLogger(Facade.class);
 
-    private final MessageService messageService;
-
     private final UserService userService;
+    private final TraineeService traineeService;
+    private final TrainerService trainerService;
+    private final TrainingService trainingService;
+    private final TrainingTypeService trainingTypeService;
 
-    @Autowired
-    public Facade(MessageService messageService, UserService userService) {
-        this.messageService = messageService;
+    public Facade(UserService userService, TraineeService traineeService, TrainerService trainerService, TrainingService trainingService, TrainingTypeService trainingTypeService) {
         this.userService = userService;
+        this.traineeService = traineeService;
+        this.trainerService = trainerService;
+        this.trainingService = trainingService;
+        this.trainingTypeService = trainingTypeService;
     }
-
-    public void messageCRUD() {
-        Message message = new Message("Spring Boot");
-        try {
-
-            logger.info(messageService.create(message));
-        } catch (RuntimeException e) {
-            logger.error(e.getMessage());
-        }
-
-    }
-
 
     public void userCRUD() {
         logger.info("======CREATE USERS======");

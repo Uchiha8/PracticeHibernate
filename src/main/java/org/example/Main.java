@@ -11,6 +11,5 @@ public class Main {
         ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
         Facade facade = applicationContext.getBean(Facade.class);
         facade.userCRUD();
-        facade.messageCRUD();
     }
 }
