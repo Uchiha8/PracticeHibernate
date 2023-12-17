@@ -1,10 +1,14 @@
 package org.example.dao;
 
-import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.*;
+import org.example.domain.Trainee;
+import org.example.domain.Trainer;
 import org.example.domain.Training;
+import org.example.domain.User;
 import org.hibernate.Session;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -78,6 +82,37 @@ public class TrainingDAO implements BaseDAO<Training> {
             }
             session.getTransaction().commit();
             return false;
+        }
+    }
+
+    public List<Training> getTrainingsByTraineeUsername(String username) {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Training> cr = cb.createQuery(Training.class);
+            Root<Training> root = cr.from(Training.class);
+            Join<Training, Trainee> traineeJoin = root.join("trainees");
+            Join<Trainee, User> userJoin = traineeJoin.join("user");
+            Predicate condition = cb.and(
+                    cb.equal(userJoin.get("username"), username)
+            );
+            cr.select(root).where(condition);
+            Query<Training> query = session.createQuery(cr);
+            return query.getResultList();
+        }
+    }
+    public List<Training> getTrainingsByTrainerUsername(String username) {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder cb = session.getCriteriaBuilder();
+            CriteriaQuery<Training> cr = cb.createQuery(Training.class);
+            Root<Training> root = cr.from(Training.class);
+            Join<Training, Trainer> traineeJoin = root.join("trainer");
+            Join<Trainer, User> userJoin = traineeJoin.join("user");
+            Predicate condition = cb.and(
+                    cb.equal(userJoin.get("username"), username)
+            );
+            cr.select(root).where(condition);
+            Query<Training> query = session.createQuery(cr);
+            return query.getResultList();
         }
     }
 }

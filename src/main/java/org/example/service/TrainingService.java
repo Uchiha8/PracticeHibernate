@@ -67,4 +67,20 @@ public class TrainingService implements BaseService<Training> {
         }
         return true;
     }
+
+    public List<Training> readTrainingsByTraineeUsername(String username) {
+        List<Training> trainings = trainingDAO.getTrainingsByTraineeUsername(username);
+        if (trainings.isEmpty()) {
+            throw new TrainingNotFoundException("There is no training with trainee username: " + username);
+        }
+        return trainings;
+    }
+
+    public List<Training> readTrainingsByTrainerUsername(String username) {
+        List<Training> trainings = trainingDAO.getTrainingsByTrainerUsername(username);
+        if (trainings.isEmpty()) {
+            throw new TrainingNotFoundException("There is no training with trainer username: " + username);
+        }
+        return trainings;
+    }
 }

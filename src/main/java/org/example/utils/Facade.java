@@ -6,6 +6,7 @@ import org.example.domain.*;
 import org.example.service.*;
 import org.example.utils.exception.TraineeNotFoundException;
 import org.example.utils.exception.TrainerNotFoundException;
+import org.example.utils.exception.TrainingNotFoundException;
 import org.mapstruct.control.MappingControl;
 import org.springframework.stereotype.Component;
 
@@ -251,8 +252,41 @@ public class Facade {
             throw new RuntimeException(e);
         }
         logger.info("==========Get Trainee Trainings List by trainee username and criteria.==========");
-
+        Trainee traineeTrainings = null;
+        try {
+            traineeTrainings = traineeService.readById(1L);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        if (traineeService.matchTraineeCredentials(traineeTrainings.getUser().getUsername(), traineeTrainings.getUser().getPassword())) {
+            try {
+                List<Training> trainingList = trainingService.readTrainingsByTraineeUsername(traineeTrainings.getUser().getUsername());
+                for (Training t : trainingList) {
+                    logger.info(t.toString());
+                }
+            } catch (TrainingNotFoundException e) {
+                logger.error(e.getMessage());
+            }
+        } else {
+            logger.error("There is no training with provided username of trainee!!!");
+        }
         logger.info("==========Get Trainer Trainings List by trainee username and criteria.==========");
+        Trainer trainerTrainings = null;
+        try {
+            trainerTrainings = trainerService.readById(2L);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        if (trainerService.matchTrainerCredentials(trainerTrainings.getUser().getUsername(), trainerTrainings.getUser().getPassword())) {
+            try {
+                List<Training> trainings = trainingService.readTrainingsByTrainerUsername(trainerTrainings.getUser().getUsername());
+                for (Training t : trainings) {
+                    logger.info(t.toString());
+                }
+            } catch (TrainingNotFoundException e) {
+                logger.error(e.getMessage());
+            }
+        }
         logger.info("==========Get not assigned on specific trainee active trainers list.==========");
         logger.info("==========Update Tranee's trainers list==========");
 
