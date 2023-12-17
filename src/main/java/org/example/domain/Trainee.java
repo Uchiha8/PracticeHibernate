@@ -12,8 +12,6 @@ public class Trainee {
     private Long id;
     private Date birthOfDate;
     private String address;
-    @ManyToMany
-    private List<Trainer> trainerList;
     @OneToOne
     private User user;
 

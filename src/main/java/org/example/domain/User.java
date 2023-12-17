@@ -25,6 +25,15 @@ public class User {
         this.isActive = isActive;
     }
 
+    public User(Long id, String firstName, String lastName, String username, String password, Boolean isActive) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.password = password;
+        this.isActive = isActive;
+    }
+
     public User() {
     }
 

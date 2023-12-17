@@ -1,15 +1,15 @@
 package utils.exceprion;
 
-import org.example.utils.exception.TraineeNotFoundException;
+import org.example.utils.exception.UserNotFoundException;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class TraineeNotFoundExceptionUT {
+public class UserNotFoundExceptionUT {
     @Test
     public void testConstructorWithMessage() {
         String errorMessage = "Trainee not found";
-        TraineeNotFoundException exception = new TraineeNotFoundException(errorMessage);
+        UserNotFoundException exception = new UserNotFoundException(errorMessage);
         assertEquals(errorMessage, exception.getMessage());
     }
 }
