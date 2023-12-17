@@ -288,8 +288,13 @@ public class Facade {
             }
         }
         logger.info("==========Get not assigned on specific trainee active trainers list.==========");
-        logger.info("==========Update Tranee's trainers list==========");
-
-
+        try {
+            List<Trainer> trainers = trainerService.readActiveUnassignedTrainers();
+            for (Trainer t : trainers) {
+                logger.info(t.toString());
+            }
+        } catch (TrainerNotFoundException e) {
+            logger.error(e.getMessage());
+        }
     }
 }

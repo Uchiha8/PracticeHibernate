@@ -1,7 +1,9 @@
 package org.example.dao;
 
+import jakarta.persistence.criteria.*;
 import org.example.domain.Trainee;
 import org.example.domain.Trainer;
+import org.example.domain.Training;
 import org.example.domain.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -45,6 +47,7 @@ public class TrainerDAO implements BaseDAO<Trainer> {
             return query.uniqueResult();
         }
     }
+
     public Trainer changePassword(String username, String newPassword) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
@@ -96,6 +99,7 @@ public class TrainerDAO implements BaseDAO<Trainer> {
             return false;
         }
     }
+
     @Override
     public boolean deleteById(Long id) {
         try (Session session = sessionFactory.openSession()) {
@@ -125,6 +129,29 @@ public class TrainerDAO implements BaseDAO<Trainer> {
             return false;
         }
     }
+
+    public List<Trainer> readActiveUnassignedTrainers() {
+        try (Session session = sessionFactory.openSession()) {
+            CriteriaBuilder criteriaBuilder = session.getCriteriaBuilder();
+            CriteriaQuery<Trainer> criteriaQuery = criteriaBuilder.createQuery(Trainer.class);
+            Root<Trainer> trainerRoot = criteriaQuery.from(Trainer.class);
+            Join<Trainer, User> trainerUserJoin = trainerRoot.join("user");
+
+            Subquery<Long> subquery = criteriaQuery.subquery(Long.class);
+            Root<Training> subqueryTrainingRoot = subquery.from(Training.class);
+            subquery.select(subqueryTrainingRoot.get("trainer").get("id"))
+                    .where(criteriaBuilder.equal(subqueryTrainingRoot.get("trainer"), trainerRoot));
+
+            Predicate unassignedCondition = criteriaBuilder.not(criteriaBuilder.in(trainerRoot.get("id")).value(subquery));
+            Predicate activeCondition = criteriaBuilder.isTrue(trainerUserJoin.get("isActive"));
+
+            criteriaQuery.select(trainerRoot).where(unassignedCondition, activeCondition);
+
+            Query<Trainer> query = session.createQuery(criteriaQuery);
+            return query.getResultList();
+        }
+    }
+
     @Override
     public boolean existById(Long id) {
         try (Session session = sessionFactory.openSession()) {

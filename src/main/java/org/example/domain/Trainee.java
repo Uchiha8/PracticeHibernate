@@ -3,6 +3,7 @@ package org.example.domain;
 import jakarta.persistence.*;
 
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Trainee {
@@ -11,6 +12,8 @@ public class Trainee {
     private Long id;
     private Date birthOfDate;
     private String address;
+    @ManyToMany
+    private List<Trainer> trainerList;
     @OneToOne
     private User user;
 

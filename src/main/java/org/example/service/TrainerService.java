@@ -92,6 +92,7 @@ public class TrainerService implements BaseService<Trainer> {
         }
         throw new TrainerNotFoundException("Trainer not found with username: " + username);
     }
+
     public boolean validParams(Trainer trainer) {
         if (trainer.getUser() == null) {
             return false;
@@ -107,5 +108,13 @@ public class TrainerService implements BaseService<Trainer> {
             }
         }
         return false;
+    }
+
+    public List<Trainer> readActiveUnassignedTrainers() {
+        List<Trainer> trainerList = trainerDAO.readActiveUnassignedTrainers();
+        if (trainerList.isEmpty()) {
+            throw new TrainerNotFoundException("There is no active and unassigned trainers!!!");
+        }
+        return trainerList;
     }
 }
