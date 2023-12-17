@@ -168,14 +168,91 @@ public class Facade {
         } catch (RuntimeException e) {
             logger.error(e.getMessage());
         }
-        logger.info("==========Update trainer profile.==========");
         logger.info("==========Update trainee profile.==========");
+        try {
+            Trainee updateTrainee = new Trainee(3L, new Date(), "New York", userService.readById(3L));
+            if (traineeService.matchTraineeCredentials(updateTrainee.getUser().getUsername(), updateTrainee.getUser().getPassword())) {
+                logger.info(traineeService.update(updateTrainee));
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        logger.info("==========Update trainer profile.==========");
+        try {
+            Trainer updateTrainer = new Trainer(3L, trainingTypeService.readById(1L), userService.readById(3L));
+            if (trainerService.matchTrainerCredentials(updateTrainer.getUser().getUsername(), updateTrainer.getUser().getPassword())) {
+                logger.info(trainerService.update(updateTrainer));
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
         logger.info("==========Activate/De-activate trainee.==========");
+        try {
+            Trainee activateTrainee = traineeService.readById(5L);
+            if (traineeService.matchTraineeCredentials(activateTrainee.getUser().getUsername(), activateTrainee.getUser().getPassword())) {
+                try {
+                    logger.info(traineeService.activateDeactivateTrainee(activateTrainee.getId(), false));
+                } catch (TraineeNotFoundException e) {
+                    logger.error(e.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
         logger.info("==========Activate/De-activate trainer.==========");
+        try {
+            Trainer activateTrainer = trainerService.readById(5L);
+            if (trainerService.matchTrainerCredentials(activateTrainer.getUser().getUsername(), activateTrainer.getUser().getPassword())) {
+                try {
+                    logger.info(trainerService.activateDeactivateTrainer(activateTrainer.getId(), true));
+                } catch (TrainerNotFoundException e) {
+                    logger.error(e.getMessage());
+                }
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
         logger.info("==========Delete trainee profile by username.==========");
-        logger.info("==========Get Trainee Trainings List by trainee username and criteria.==========");
-        logger.info("==========Get Trainer Trainings List by trainee username and criteria.==========");
+        Trainee deletedTrainee = null;
+        try {
+            deletedTrainee = traineeService.readById(3L);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        if (traineeService.matchTraineeCredentials(deletedTrainee.getUser().getUsername(), deletedTrainee.getUser().getPassword())) {
+            try {
+                logger.info(traineeService.deleteByUsername(deletedTrainee.getUser().getUsername()));
+            } catch (TraineeNotFoundException e) {
+                logger.error(e.getMessage());
+            }
+        }
+        logger.info("==========Delete trainer profile by username.==========");
+        Trainer deletedTrainer = null;
+        try {
+            deletedTrainer = trainerService.readById(3L);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        if (trainerService.matchTrainerCredentials(deletedTrainer.getUser().getUsername(), deletedTrainee.getUser().getPassword())) {
+            try {
+                logger.info(trainerService.deleteByUsername(deletedTrainer.getUser().getUsername()));
+            } catch (TrainerNotFoundException e) {
+                logger.error(e.getMessage());
+            }
+        }
         logger.info("==========Add training.==========");
+        List<Trainee> traineeList = new ArrayList<>();
+        try {
+            traineeList.add(traineeService.readById(1L));
+            traineeList.add(traineeService.readById(2L));
+            traineeList.add(traineeService.readById(3L));
+            logger.info(trainingService.create(new Training(traineeList, trainerService.readById(3L), "EpamLab", trainingTypeService.readById(4L), new Date(), 1)));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        logger.info("==========Get Trainee Trainings List by trainee username and criteria.==========");
+
+        logger.info("==========Get Trainer Trainings List by trainee username and criteria.==========");
         logger.info("==========Get not assigned on specific trainee active trainers list.==========");
         logger.info("==========Update Tranee's trainers list==========");
 

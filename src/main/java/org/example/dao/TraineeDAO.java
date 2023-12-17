@@ -65,6 +65,7 @@ public class TraineeDAO implements BaseDAO<Trainee> {
         }
     }
 
+
     @Override
     public Trainee create(Trainee entity) {
         try (Session session = sessionFactory.openSession()) {
@@ -86,6 +87,18 @@ public class TraineeDAO implements BaseDAO<Trainee> {
         }
     }
 
+    public boolean activateDeactivateTrainee(Long id, boolean status) {
+        try (Session session = sessionFactory.openSession()) {
+            Trainee trainee = readById(id);
+            if (trainee != null) {
+                trainee.getUser().setActive(status);
+                session.merge(trainee);
+                return true;
+            }
+            return false;
+        }
+    }
+
     @Override
     public boolean deleteById(Long id) {
         try (Session session = sessionFactory.openSession()) {
@@ -96,6 +109,22 @@ public class TraineeDAO implements BaseDAO<Trainee> {
                 return true;
             }
             session.getTransaction().commit();
+            return false;
+        }
+    }
+
+    public boolean deleteByUsername(String username) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Trainee> query = session.createQuery(
+                    "SELECT t FROM Trainee t JOIN FETCH t.user u WHERE u.username = :username",
+                    Trainee.class
+            );
+            query.setParameter("username", username);
+            Trainee trainee = query.uniqueResult();
+            if (trainee != null) {
+                session.remove(trainee);
+                return true;
+            }
             return false;
         }
     }

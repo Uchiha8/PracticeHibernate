@@ -85,6 +85,17 @@ public class TrainerDAO implements BaseDAO<Trainer> {
         }
     }
 
+    public boolean activateDeactivateTrainer(Long id, boolean status) {
+        try (Session session = sessionFactory.openSession()) {
+            Trainer trainer = readById(id);
+            if (trainer != null) {
+                trainer.getUser().setActive(status);
+                session.merge(trainer);
+                return true;
+            }
+            return false;
+        }
+    }
     @Override
     public boolean deleteById(Long id) {
         try (Session session = sessionFactory.openSession()) {
@@ -99,6 +110,21 @@ public class TrainerDAO implements BaseDAO<Trainer> {
         }
     }
 
+    public boolean deleteByUsername(String username) {
+        try (Session session = sessionFactory.openSession()) {
+            Query<Trainer> query = session.createQuery(
+                    "SELECT t FROM Trainer t JOIN FETCH t.user u WHERE u.username = :username",
+                    Trainer.class
+            );
+            query.setParameter("username", username);
+            Trainer trainer = query.uniqueResult();
+            if (trainer != null) {
+                session.remove(trainer);
+                return true;
+            }
+            return false;
+        }
+    }
     @Override
     public boolean existById(Long id) {
         try (Session session = sessionFactory.openSession()) {

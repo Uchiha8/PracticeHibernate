@@ -20,6 +20,13 @@ public class Trainee {
         this.user = user;
     }
 
+    public Trainee(Long id, Date birthOfDate, String address, User user) {
+        this.id = id;
+        this.birthOfDate = birthOfDate;
+        this.address = address;
+        this.user = user;
+    }
+
     public Trainee() {
     }
 

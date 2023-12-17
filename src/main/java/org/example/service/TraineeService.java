@@ -70,12 +70,25 @@ public class TraineeService implements BaseService<Trainee> {
         throw new RuntimeException("Please provide valid params");
     }
 
+    public boolean activateDeactivateTrainee(Long id, boolean status) {
+        if (traineeDAO.activateDeactivateTrainee(id, status)) {
+            return true;
+        }
+        throw new TraineeNotFoundException("Trainee not found with ID: " + id);
+    }
     @Override
     public boolean deleteById(Long id) throws Exception {
         if (traineeDAO.deleteById(id)) {
             return true;
         }
         throw new TraineeNotFoundException("Trainee not found with ID: " + id);
+    }
+
+    public boolean deleteByUsername(String username) {
+        if (traineeDAO.deleteByUsername(username)) {
+            return true;
+        }
+        throw new TraineeNotFoundException("Trainee not found with username: " + username);
     }
 
     public boolean validParams(Trainee trainee) {

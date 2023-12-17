@@ -44,6 +44,7 @@ public class TrainerService implements BaseService<Trainer> {
         }
         return trainer;
     }
+
     public Trainer changePassword(String username, String oldPassword, String newPassword) {
         if (matchTrainerCredentials(username, oldPassword)) {
             Trainer trainer = trainerDAO.changePassword(username, newPassword);
@@ -62,6 +63,13 @@ public class TrainerService implements BaseService<Trainer> {
         throw new RuntimeException("Please provide valid params");
     }
 
+    public boolean activateDeactivateTrainer(Long id, boolean status) {
+        if (trainerDAO.activateDeactivateTrainer(id, status)) {
+            return true;
+        }
+        throw new TrainerNotFoundException("Trainer not found with ID: " + id);
+    }
+
     @Override
     public Trainer update(Trainer updateRequest) {
         if (validParams(updateRequest)) {
@@ -78,6 +86,12 @@ public class TrainerService implements BaseService<Trainer> {
         throw new TraineeNotFoundException("Trainer is not found with ID: " + id);
     }
 
+    public boolean deleteByUsername(String username) {
+        if (trainerDAO.deleteByUsername(username)) {
+            return true;
+        }
+        throw new TrainerNotFoundException("Trainer not found with username: " + username);
+    }
     public boolean validParams(Trainer trainer) {
         if (trainer.getUser() == null) {
             return false;
