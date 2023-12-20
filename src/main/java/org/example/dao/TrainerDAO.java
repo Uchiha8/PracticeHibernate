@@ -11,6 +11,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -48,24 +49,39 @@ public class TrainerDAO implements BaseDAO<Trainer> {
         }
     }
 
+    @Transactional
     public Trainer changePassword(String username, String newPassword) {
         try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-            Query<Trainer> traineeQuery = session.createQuery(
-                    "SELECT t FROM Trainer t JOIN FETCH t.user u WHERE u.username = :username",
-                    Trainer.class
-            );
-            traineeQuery.setParameter("username", username);
-            Trainer trainer = traineeQuery.uniqueResult();
-            if (trainer != null) {
-                User user = trainer.getUser();
-                user.setPassword(newPassword);
-                session.merge(user);
+            Transaction transaction = null;
+            Trainer trainer = null;
+
+            try {
+                transaction = session.beginTransaction();
+
+                Query<Trainer> trainerQuery = session.createQuery(
+                        "SELECT t FROM Trainer t JOIN FETCH t.user u WHERE u.username = :username",
+                        Trainer.class
+                );
+                trainerQuery.setParameter("username", username);
+                trainer = trainerQuery.uniqueResult();
+
+                if (trainer != null) {
+                    User user = trainer.getUser();
+                    user.setPassword(newPassword);
+                    session.merge(user);
+                }
+
                 transaction.commit();
+            } catch (Exception e) {
+                if (transaction != null) {
+                    transaction.rollback();
+                }
+                return null;
             }
             return trainer;
         }
     }
+
 
     @Override
     public Trainer create(Trainer entity) {

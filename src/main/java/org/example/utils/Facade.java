@@ -296,5 +296,12 @@ public class Facade {
         } catch (TrainerNotFoundException e) {
             logger.error(e.getMessage());
         }
+
+        try {
+            traineeService.deleteById(3L);
+        } catch (TraineeNotFoundException e) {
+            logger.error(e.getMessage());
+
+        }
     }
 }

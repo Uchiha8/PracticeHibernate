@@ -10,7 +10,7 @@ public class Training {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
     @JoinTable(name = "training_trainees", joinColumns = @JoinColumn(name = "training_id"), inverseJoinColumns = @JoinColumn(name = "trainee_id"))
     private List<Trainee> trainees;
     @ManyToOne

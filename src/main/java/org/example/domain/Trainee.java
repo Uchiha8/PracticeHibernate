@@ -10,10 +10,14 @@ public class Trainee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Temporal(TemporalType.DATE)
     private Date birthOfDate;
     private String address;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private User user;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Training> trainings;
 
     public Trainee(Date birthOfDate, String address, User user) {
         this.birthOfDate = birthOfDate;

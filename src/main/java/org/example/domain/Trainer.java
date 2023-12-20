@@ -11,7 +11,7 @@ public class Trainer {
     private Long id;
     @ManyToOne
     private TrainingType trainingType;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private User user;
 
     public Trainer(Long id, TrainingType trainingType, User user) {
@@ -54,10 +54,6 @@ public class Trainer {
 
     @Override
     public String toString() {
-        return "Trainer{" +
-                "id=" + id +
-                ", trainingType=" + trainingType +
-                ", user=" + user +
-                '}';
+        return "Trainer{" + "id=" + id + ", trainingType=" + trainingType + ", user=" + user + '}';
     }
 }

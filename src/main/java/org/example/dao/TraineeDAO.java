@@ -8,6 +8,7 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -46,21 +47,36 @@ public class TraineeDAO implements BaseDAO<Trainee> {
         }
     }
 
+    @Transactional
     public Trainee changePassword(String username, String newPassword) {
         try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-            Query<Trainee> traineeQuery = session.createQuery(
-                    "SELECT t FROM Trainee t JOIN FETCH t.user u WHERE u.username = :username",
-                    Trainee.class
-            );
-            traineeQuery.setParameter("username", username);
-            Trainee trainee = traineeQuery.uniqueResult();
-            if (trainee != null) {
-                User user = trainee.getUser();
-                user.setPassword(newPassword);
-                session.merge(user);
+            Transaction transaction = null;
+            Trainee trainee = null;
+
+            try {
+                transaction = session.beginTransaction();
+
+                Query<Trainee> traineeQuery = session.createQuery(
+                        "SELECT t FROM Trainee t JOIN FETCH t.user u WHERE u.username = :username",
+                        Trainee.class
+                );
+                traineeQuery.setParameter("username", username);
+                trainee = traineeQuery.uniqueResult();
+
+                if (trainee != null) {
+                    User user = trainee.getUser();
+                    user.setPassword(newPassword);
+                    session.merge(user);
+                }
+
                 transaction.commit();
+            } catch (Exception e) {
+                if (transaction != null) {
+                    transaction.rollback();
+                }
+                return null;
             }
+
             return trainee;
         }
     }
@@ -99,19 +115,27 @@ public class TraineeDAO implements BaseDAO<Trainee> {
         }
     }
 
+
     @Override
     public boolean deleteById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            Trainee trainee = session.get(Trainee.class, id);
-            if (trainee != null) {
-                session.remove(trainee);
-                return true;
+            Transaction transaction = session.beginTransaction();
+            try {
+                Trainee trainee = session.get(Trainee.class, id);
+                if (trainee != null) {
+                    session.remove(trainee);
+                    transaction.commit();
+                    return true;
+                }
+            } catch (Exception e) {
+                if (transaction != null && transaction.isActive()) {
+                    transaction.rollback();
+                }
             }
-            session.getTransaction().commit();
             return false;
         }
     }
+
 
     public boolean deleteByUsername(String username) {
         try (Session session = sessionFactory.openSession()) {

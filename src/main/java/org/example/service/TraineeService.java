@@ -77,7 +77,7 @@ public class TraineeService implements BaseService<Trainee> {
         throw new TraineeNotFoundException("Trainee not found with ID: " + id);
     }
     @Override
-    public boolean deleteById(Long id) throws Exception {
+    public boolean deleteById(Long id) {
         if (traineeDAO.deleteById(id)) {
             return true;
         }
