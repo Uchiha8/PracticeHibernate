@@ -156,7 +156,17 @@ The `TrainingType` class represents a training type entity in the system.
 
 - **Getter and Setter methods for all attributes.**
 
-## Overview
+## Hibernate
+
+### Hibernate Configuration - AppConfig Class
+
+The AppConfig class serves as the configuration hub for Hibernate integration. It defines a singleton SessionFactory bean, a critical component for managing database connections and interactions.
+
+### Hibernate Implementation
+
+The UserDAO class is a Hibernate Data Access Object (DAO) implementing CRUD operations for the User entity. It utilizes the SessionFactory to manage database sessions, encapsulating transactional and session logic.
+
+Also, the same implementations on TrainerDAO, TraineeDAO, TrainingDAO, and TrainingTypeDAO.
 
 This project implements a Training Management System with various functionalities related to trainer and trainee profiles, password management, profile updates, activation/deactivation, training sessions, and more.
 
@@ -231,6 +241,14 @@ This project implements a Training Management System with various functionalitie
 
 Ensure the necessary dependencies, such as the logger and service classes, are configured in the project.
 
-## Notes
+## How to Run the Project
 
-Handle exceptions to ensure system robustness. Logging captures execution flow and exceptions.
+To execute the Java application project utilizing a PostgreSQL relational database, follow these steps:
+
+### Database Configuration
+
+Create a PostgreSQL database named "hibernate" to facilitate the proper functioning of the application.
+
+### Running the Project
+
+After configuring the database, proceed to execute the Java application.
