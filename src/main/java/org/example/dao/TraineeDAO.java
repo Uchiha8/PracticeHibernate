@@ -1,6 +1,7 @@
 package org.example.dao;
 
 import org.example.domain.Trainee;
+import org.example.domain.Training;
 import org.example.domain.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,6 +16,9 @@ import java.util.List;
 @Repository
 public class TraineeDAO implements BaseDAO<Trainee> {
     private final SessionFactory sessionFactory;
+
+    @Autowired
+    private TrainingDAO trainingDAO;
 
     @Autowired
     public TraineeDAO(SessionFactory sessionFactory) {
@@ -120,18 +124,19 @@ public class TraineeDAO implements BaseDAO<Trainee> {
     public boolean deleteById(Long id) {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
-            try {
-                Trainee trainee = session.get(Trainee.class, id);
-                if (trainee != null) {
-                    session.remove(trainee);
-                    transaction.commit();
-                    return true;
-                }
-            } catch (Exception e) {
-                if (transaction != null && transaction.isActive()) {
-                    transaction.rollback();
-                }
+
+            Trainee trainee = session.get(Trainee.class, id);
+
+            if (trainee != null) {
+                trainingDAO.deleteTrainingTrainees(trainee);
+                session.remove(trainee);
+                transaction.commit();
+                return true;
             }
+            transaction.rollback();
+            return false;
+        } catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
@@ -146,6 +151,7 @@ public class TraineeDAO implements BaseDAO<Trainee> {
             query.setParameter("username", username);
             Trainee trainee = query.uniqueResult();
             if (trainee != null) {
+                trainingDAO.deleteTrainingTrainees(trainee);
                 session.remove(trainee);
                 return true;
             }

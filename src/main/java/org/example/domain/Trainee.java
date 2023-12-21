@@ -13,11 +13,8 @@ public class Trainee {
     @Temporal(TemporalType.DATE)
     private Date birthOfDate;
     private String address;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
     private User user;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Training> trainings;
 
     public Trainee(Date birthOfDate, String address, User user) {
         this.birthOfDate = birthOfDate;

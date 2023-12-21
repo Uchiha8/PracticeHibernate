@@ -84,7 +84,7 @@ public class Facade {
             logger.info(trainingService.create(new Training(trainees, trainerService.readById(1L), "Avengers", trainingTypeService.readById(2L), new Date(), 2)));
             logger.info(trainingService.create(new Training(trainees, trainerService.readById(2L), "GoodJob", trainingTypeService.readById(3L), new Date(), 3)));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            logger.error(e.getMessage());
         }
     }
 
@@ -249,15 +249,14 @@ public class Facade {
             traineeList.add(traineeService.readById(3L));
             logger.info(trainingService.create(new Training(traineeList, trainerService.readById(3L), "EpamLab", trainingTypeService.readById(4L), new Date(), 1)));
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            logger.error(e.getMessage());
         }
         logger.info("==========Get Trainee Trainings List by trainee username and criteria.==========");
         Trainee traineeTrainings = null;
         try {
             traineeTrainings = traineeService.readById(1L);
         } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+            logger.error(e.getMessage());        }
         if (traineeService.matchTraineeCredentials(traineeTrainings.getUser().getUsername(), traineeTrainings.getUser().getPassword())) {
             try {
                 List<Training> trainingList = trainingService.readTrainingsByTraineeUsername(traineeTrainings.getUser().getUsername());
@@ -270,7 +269,7 @@ public class Facade {
         } else {
             logger.error("There is no training with provided username of trainee!!!");
         }
-        logger.info("==========Get Trainer Trainings List by trainee username and criteria.==========");
+        logger.info("==========Get Trainer Trainings List by trainer username and criteria.==========");
         Trainer trainerTrainings = null;
         try {
             trainerTrainings = trainerService.readById(2L);
@@ -296,12 +295,10 @@ public class Facade {
         } catch (TrainerNotFoundException e) {
             logger.error(e.getMessage());
         }
-
         try {
-            traineeService.deleteById(3L);
+            traineeService.deleteById(2L);
         } catch (TraineeNotFoundException e) {
             logger.error(e.getMessage());
-
         }
     }
 }

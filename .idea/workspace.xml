@@ -233,11 +233,24 @@
       <workItem from="1702895656336" duration="2146000" />
       <workItem from="1702903836539" duration="356000" />
       <workItem from="1703005741324" duration="5751000" />
+      <workItem from="1703069486049" duration="3257000" />
+      <workItem from="1703136615138" duration="1492000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/org/example/domain/Training.java</url>
+          <line>31</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/PracticeHibernate$AppConfigUT.ic" NAME="AppConfigUT Coverage Results" MODIFIED="1702846085259" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />

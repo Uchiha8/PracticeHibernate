@@ -2,8 +2,6 @@ package org.example.domain;
 
 import jakarta.persistence.*;
 
-import java.util.List;
-
 @Entity
 public class Trainer {
     @Id
@@ -11,7 +9,7 @@ public class Trainer {
     private Long id;
     @ManyToOne
     private TrainingType trainingType;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
     private User user;
 
     public Trainer(Long id, TrainingType trainingType, User user) {

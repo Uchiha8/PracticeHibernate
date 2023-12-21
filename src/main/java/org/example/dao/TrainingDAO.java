@@ -100,6 +100,7 @@ public class TrainingDAO implements BaseDAO<Training> {
             return query.getResultList();
         }
     }
+
     public List<Training> getTrainingsByTrainerUsername(String username) {
         try (Session session = sessionFactory.openSession()) {
             CriteriaBuilder cb = session.getCriteriaBuilder();
@@ -113,6 +114,18 @@ public class TrainingDAO implements BaseDAO<Training> {
             cr.select(root).where(condition);
             Query<Training> query = session.createQuery(cr);
             return query.getResultList();
+        }
+    }
+
+    public void deleteTrainingTrainees(Trainee trainee) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            List<Training> trainings = readAll();
+            for (Training t : trainings) {
+                t.getTrainees().remove(trainee);
+                session.merge(t);
+            }
+            session.getTransaction().commit();
         }
     }
 }

@@ -20,6 +20,7 @@ public class User {
     private Boolean isActive;
 
     public User(String firstName, String lastName, Boolean isActive) {
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.isActive = isActive;
