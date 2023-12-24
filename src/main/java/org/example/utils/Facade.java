@@ -7,7 +7,6 @@ import org.example.service.*;
 import org.example.utils.exception.TraineeNotFoundException;
 import org.example.utils.exception.TrainerNotFoundException;
 import org.example.utils.exception.TrainingNotFoundException;
-import org.mapstruct.control.MappingControl;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -16,7 +15,7 @@ import java.util.List;
 
 @Component
 public class Facade {
-    private static Logger logger = LogManager.getLogger(Facade.class);
+    private final static Logger logger = LogManager.getLogger(Facade.class);
 
     private final UserService userService;
     private final TraineeService traineeService;

@@ -199,8 +199,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
         <item itemvalue="Gradle.Tests in 'PracticeHibernate.test'" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="Gradle.TrainingDAOTest" />
         <item itemvalue="Gradle.TrainingDAOTest.existByIdTrainingNotExists" />
         <item itemvalue="Gradle.TrainingDAOTest.existByIdTrainingExists" />
@@ -234,7 +234,10 @@
       <workItem from="1702903836539" duration="356000" />
       <workItem from="1703005741324" duration="5751000" />
       <workItem from="1703069486049" duration="3257000" />
-      <workItem from="1703136615138" duration="1492000" />
+      <workItem from="1703136615138" duration="2317000" />
+      <workItem from="1703145958298" duration="1907000" />
+      <workItem from="1703228537216" duration="676000" />
+      <workItem from="1703416696461" duration="619000" />
     </task>
     <servers />
   </component>
@@ -257,6 +260,6 @@
     <SUITE FILE_PATH="coverage/PracticeHibernate$Tests_in__utils_exceprion_.ic" NAME="Tests in 'utils.exceprion' Coverage Results" MODIFIED="1702844006322" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/PracticeHibernate$Tests_in__domain_.ic" NAME="Tests in 'domain' Coverage Results" MODIFIED="1702845660787" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/PracticeHibernate$UserUT.ic" NAME="UserUT Coverage Results" MODIFIED="1702844555977" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/PracticeHibernate$Tests_in__PracticeHibernate_test_.ic" NAME="Tests in 'PracticeHibernate.test' Coverage Results" MODIFIED="1702857615689" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/PracticeHibernate$Tests_in__PracticeHibernate_test_.ic" NAME="Tests in 'PracticeHibernate.test' Coverage Results" MODIFIED="1703229294175" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
