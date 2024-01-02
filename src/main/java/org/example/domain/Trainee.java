@@ -3,7 +3,6 @@ package org.example.domain;
 import jakarta.persistence.*;
 
 import java.util.Date;
-import java.util.List;
 
 @Entity
 public class Trainee {
